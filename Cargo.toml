@@ -1,0 +1,14 @@
+[package]
+name = "librrd-rs"
+authors = ["Fox Box <foxboxpdx@gmail.com>"]
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+libc = "0.2"
+
+[build-dependencies]
+bindgen = "0.69.4"
+
+[[example]]
+name = "create"
