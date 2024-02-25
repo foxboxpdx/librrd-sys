@@ -4,6 +4,7 @@ Rust FFI library wrapping RRDTool's librrd
 ## Current Functionality
 * Create, Dump, Graph (see `examples/`` directory)
     * Graph generates the image but then segfauts; still don't know why, putting it on the back-burner to finish implementing the other 11 subcommands
+* Modules are constructed using a 'Builder'-style.  This gets a little verbose, just look in `graph.rs`.  Yeesh.
 
 ## To Do
 * Export, Fetch, First, Info, Last, Lasdupdate, List, Resize, Restore, Tune, Update
