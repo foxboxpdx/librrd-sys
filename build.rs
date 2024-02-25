@@ -2,26 +2,30 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
-    // Tell cargo to look for shared libraries in the specified directory
-    println!("cargo:rustc-link-search=/opt/homebrew/lib");
+    // Try to guess where librrd.a / librrd.so live
+    let library = if cfg!(target_os = "macos") {
+        "/opt/homebrew/lib"
+    } else {
+        "/usr/lib/"
+    };
 
-    // Tell cargo to tell rustc to link the system bzip2
-    // shared library.
+    println!("cargo:rustc-link-search={}", library);
+
+    // Tell cargo to tell rustc to link the rrd shared library
     println!("cargo:rustc-link-lib=rrd");
 
-    // The bindgen::Builder is the main entry point
-    // to bindgen, and lets you build up options for
-    // the resulting bindings.
+    // Try to determine which wrapper.h to include
+    let headerfile = if cfg!(target_os = "macos") {
+        "wrapper-osx.h"
+    } else {
+        "wrapper-linux.h"
+    };
+
+    // Build bindings with bindgen::Builder
     let bindings = bindgen::Builder::default()
-        // The input header we would like to generate
-        // bindings for.
-        .header("wrapper.h")
-        // Tell cargo to invalidate the built crate whenever any of the
-        // included header files changed.
+        .header(headerfile)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
-        // Finish the builder and generate the bindings.
         .generate()
-        // Unwrap the Result and panic on failure.
         .expect("Unable to generate bindings");
 
     // Write the bindings to the $OUT_DIR/bindings.rs file.

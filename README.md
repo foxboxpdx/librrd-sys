@@ -1,7 +1,7 @@
 # librrd-sys
-Rust FFI library wrapping RRDTool's librrd
+Rust FFI library wrapping librrd for interacting with round robin databases created with Tobias Oetiker's rrdtool (https://www.rrdtool.org/).
 
-## Current Functionality
+## Current Functionality (0.1.79)
 * ✅ `create`
 * ✅ `dump`
 * ⛔️ `export` - Segfault
@@ -17,7 +17,7 @@ Rust FFI library wrapping RRDTool's librrd
 * ✅ `update`
 
 ## Usage
-Check the provided examples for very basic usage.  Check the associated RRDTool man page for complete usage info.
+* Check the provided examples for very basic usage.  Check the associated RRDTool man page for complete usage info.
 
 ## To Do
 * Try to fix `export`, `fetch`, and `graph`
@@ -27,18 +27,23 @@ Check the provided examples for very basic usage.  Check the associated RRDTool 
 * Maybe implement the stubs in `misc.rs`
 
 ## Building
-* Edit `wrapper.h` to point at the `rrd.h` and `rrd_client.h` header files on your system.
-    * Need to see if I can look up a way to automate this based on detected system triple
-* Edit `build.rs` to point at the location of the precompiled `rrd` C libraries
-    * Need to try to automate this too
-* Build away!
+* Install `librrd-dev` or the equivalent package for your OS
+* Include this crate in your dependencies
+```toml
+[dependencies]
+librrd-sys = "0.1"
+```
+* `build.rs` should automatically find `librrd` if you're on linux or macos, and should include the appropriate `wrapper.h` variant.
+
+### Windows
+* Currently no windows support, will be added soon-ish maybe.
 
 ## Examples
 * Start with `create` which will generate a very simple RRD file with one data store and one RRA.  This should appear in the base directory as `createtest.rrd`.
 * Everything else should just use that RRD file to do perform its namesake functionality.
 
 ## Help
-* FFI is Rust hard-mode and I have no idea how to properly test this stuff or turn it into a Crate.  If by some chance a fellow rustacean finds this repo, I am certainly open to advice/assistance.
+* FFI is Rust hard-mode and I'm pretty stuck trying to fix those segfaults.  If by some chance a fellow rustacean finds this repo, I am certainly open to advice/assistance.
 
 
 librrd-sys v0.1.79 2024-Feb-25

@@ -3,6 +3,16 @@ name = "librrd-sys"
 authors = ["Fox Box <foxboxpdx@gmail.com>"]
 version = "0.1.79"
 edition = "2021"
+license = "GPL-3.0"
+keywords = ["rrd", "rrdtool"]
+readme = "README.md"
+documentation = "https://github.com/foxboxpdx/librrd-sys"
+repository = "https://github.com/foxboxpdx/librrd-sys"
+homepage = "https://github.com/foxboxpdx/librrd-sys"
+description = """
+Rust FFI library wrapping librrd for interacting with round robin databases created with Tobias
+Oetiker's rrdtool (https://www.rrdtool.org/).
+"""
 
 [dependencies]
 libc = "0.2"
