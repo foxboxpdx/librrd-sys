@@ -12,6 +12,6 @@ pub fn version() -> f64 {
 
 // Options
 // daemon
-pub fn flushcached(argc: i32, argv: Vec<String>) -> bool {
+pub fn flushcached(_argc: i32, _argv: Vec<String>) -> bool {
     true
 }
