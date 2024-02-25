@@ -1,4 +1,4 @@
-use crate::{RRDCommand, convert_to_mutmutchar};
+use crate::{RRDCommand, convert_to_mutmutchar, rrd_restore};
 use std::collections::HashMap;
 use std::ffi::c_int;
 
@@ -9,34 +9,57 @@ static ARGV0: &str = "restore";
 pub struct Command {
     pub argc: i32,
     pub argv: Vec<String>,
-    pub filename: String,
+    pub xmlfile: String,
+    pub rrdfile: String,
     pub flags: Vec<String>, // For optionss with no args
     pub opts: HashMap<String, String> // for options with required args
 }
 
-impl RRDCommand for Command {
-    fn execute(&self) -> bool {true}
-}
 pub struct Builder {
     pub data: Command
 }
 
 impl Builder {
-    pub fn new(filename: String) -> Builder {
-        let data = Command { filename, ..Default::default()};
+    pub fn new(xmlfile: String, rrdfile: String) -> Builder {
+        let data = Command { xmlfile, rrdfile, ..Default::default()};
         Builder { data }
     }
     
-    pub fn build(&mut self) -> Command {
-        self.data.clone()
+    // xmlfile first, then rrdfile, then opts
+    pub fn build(self) -> Command {
+        let mut retval = self.data.clone();
+        retval.argv.push(ARGV0.to_string());
+        retval.argv.push(retval.xmlfile.clone());
+        retval.argv.push(retval.rrdfile.clone());
+        for f in &self.data.flags {
+            retval.argv.push(f.to_string());
+        }
+        for (k, v) in &self.data.opts {
+            retval.argv.push(k.to_string());
+            retval.argv.push(v.to_string());
+        }
+        retval.argc = retval.argv.len() as i32;
+        retval
     }
 
-    pub fn range_check(&mut self) {}
-    pub fn force_overwrite(&mut self) {}
+    // flag
+    pub fn range_check(mut self) -> Builder {
+        self.data.flags.push("--range-check".to_string());
+        self
+    }
+
+    // flag
+    pub fn force_overwrite(mut self) -> Builder {
+        self.data.flags.push("--force-overwrite".to_string());
+        self
+    }
 }
 
-// Options:
-// range-check, force-overwrite
-pub fn restore(argc: i32, argv: Vec<String>) -> bool {
-    true
+impl RRDCommand for Command {
+    fn execute(&self) -> bool {
+        unsafe {
+            let mut converted = convert_to_mutmutchar(self.argv.clone());
+            rrd_restore(self.argc as c_int, converted.as_mut_ptr()) == 0
+        }
+    }
 }
