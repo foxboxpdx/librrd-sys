@@ -1,4 +1,4 @@
-use crate::{RRDCommand, convert_to_mutmutchar, rrd_first};
+use crate::{convert_to_mutmutchar, rrd_first};
 use std::collections::HashMap;
 use std::ffi::c_int;
 
