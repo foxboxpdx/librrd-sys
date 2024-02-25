@@ -2,12 +2,29 @@
 Rust FFI library wrapping RRDTool's librrd
 
 ## Current Functionality
-* Create, Dump, Graph (see `examples/`` directory)
-    * Graph generates the image but then segfauts; still don't know why, putting it on the back-burner to finish implementing the other 11 subcommands
-* Modules are constructed using a 'Builder'-style.  This gets a little verbose, just look in `graph.rs`.  Yeesh.
+* ✅ `create`
+* ✅ `dump`
+* ⛔️ `export` - Segfault
+* ⛔️ `fetch` - Segfault
+* ⛔️ `graph` - Generates image but then segfaults
+* ✅ `info`
+* ✅ `last`
+* ✅ `lastupdate`
+* 🔶 `list` - Needs further testing, should work
+* ✅ `resize`
+* 🔶 `restore` - Needs further testing, should work
+* ✅ `tune`
+* ✅ `update`
+
+## Usage
+Check the provided examples for very basic usage.  Check the associated RRDTool man page for complete usage info.
 
 ## To Do
-* Export, Fetch, First, Info, Last, Lasdupdate, List, Resize, Restore, Tune, Update
+* Try to fix `export`, `fetch`, and `graph`
+* Implement `updatev`
+* Set up rrdcached to fully test `list`
+* Set up an xml file to fully test `restore`
+* Maybe implement the stubs in `misc.rs`
 
 ## Building
 * Edit `wrapper.h` to point at the `rrd.h` and `rrd_client.h` header files on your system.
@@ -24,4 +41,4 @@ Rust FFI library wrapping RRDTool's librrd
 * FFI is Rust hard-mode and I have no idea how to properly test this stuff or turn it into a Crate.  If by some chance a fellow rustacean finds this repo, I am certainly open to advice/assistance.
 
 
-librrd-sys v0.1.44 2024-Feb-25
+librrd-sys v0.1.79 2024-Feb-25
