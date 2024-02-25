@@ -1,4 +1,4 @@
-use crate::{RRDCommand, convert_to_mutmutchar};
+use crate::{convert_to_mutmutchar, rrd_last};
 use std::collections::HashMap;
 use std::ffi::c_int;
 
@@ -14,9 +14,6 @@ pub struct Command {
     pub opts: HashMap<String, String> // for options with required args
 }
 
-impl RRDCommand for Command {
-    fn execute(&self) -> bool {true}
-}
 pub struct Builder {
     pub data: Command
 }
@@ -27,15 +24,35 @@ impl Builder {
         Builder { data }
     }
     
-    pub fn build(&mut self) -> Command {
-        self.data.clone()
+    pub fn build(self) -> Command {
+        let mut retval = self.data.clone();
+        retval.argv.push(ARGV0.to_string());
+        retval.argv.push(retval.filename.clone());
+        for f in &self.data.flags {
+            retval.argv.push(f.to_string());
+        }
+        for (k, v) in &self.data.opts {
+            retval.argv.push(k.to_string());
+            retval.argv.push(v.to_string());
+        }
+        retval.argc = retval.argv.len() as i32;
+        retval
     }
 
-    pub fn daemon(&mut self) {}
+    // req
+    pub fn daemon(mut self, var: &str) -> Builder {
+        self.data.opts.insert("--daemon".to_string(), var.to_string());
+        self
+    }
 }
 
-// Options:
-// daemon
-pub fn last(argc: i32, argv: Vec<String>) -> u64 {
-    0
+// Can't impl RRDCommand cos it returns an i64/time_t
+impl Command {
+    pub fn execute(&self) -> i64 {
+        unsafe {
+            let mut converted = convert_to_mutmutchar(self.argv.clone());
+            // This returns a time_t aka a u64
+            rrd_last(self.argc as c_int, converted.as_mut_ptr())
+        }
+    }
 }
