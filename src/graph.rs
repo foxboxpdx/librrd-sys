@@ -1,7 +1,7 @@
 use crate::{convert_to_mutmutchar, convert_to_mutmutmutchar, rrd_graph, RRAType, RRDCommand, __sFILE};
 use std::collections::HashMap;
 use std::ffi::c_int;
-use std::ptr::null_mut;
+//use std::ptr::null_mut;
 
 // What should always get added to argv first
 static ARGV0: &str = "graph";
