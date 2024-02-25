@@ -1,4 +1,4 @@
-use crate::{convert_to_mutmutchar, rrd_last, rrd_lastupdate, RRDCommand};
+use crate::{convert_to_mutmutchar, rrd_lastupdate, RRDCommand};
 use std::collections::HashMap;
 use std::ffi::c_int;
 
