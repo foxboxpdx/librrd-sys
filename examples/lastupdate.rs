@@ -1,5 +1,5 @@
-use librrd_rs::lastupdate::Builder;
-use librrd_rs::{get_rrd_error, RRDCommand};
+use librrd_sys::lastupdate::Builder;
+use librrd_sys::{get_rrd_error, RRDCommand};
 fn main() {
     let command = Builder::new("createtest.rrd".to_string())
         .build();

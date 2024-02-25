@@ -1,10 +1,10 @@
-use librrd_rs::export::Builder;
-use librrd_rs::{get_rrd_error, RRDCommand};
+use librrd_sys::export::Builder;
+use librrd_sys::{get_rrd_error, RRDCommand, RRAType};
 fn main() {
     let command = Builder::new()
         .start("now-1h")
         .end("now")
-        .with_def("t", "test.rrd", "temperature", librrd_rs::RRAType::AVERAGE)
+        .with_def("t", "test.rrd", "temperature", RRAType::AVERAGE)
         .with_xport("t", "some stuff")
         .build();
     let result = command.execute();

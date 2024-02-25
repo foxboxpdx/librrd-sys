@@ -1,5 +1,5 @@
-use librrd_rs::graph::Builder;
-use librrd_rs::{get_rrd_error, RRAType, RRDCommand};
+use librrd_sys::graph::Builder;
+use librrd_sys::{get_rrd_error, RRAType, RRDCommand};
 fn main() {
     let command = Builder::new("createtest.png".to_string())
         .start("-1d")

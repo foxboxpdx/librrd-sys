@@ -1,5 +1,5 @@
-use librrd_rs::first::Builder;
-use librrd_rs::get_rrd_error;
+use librrd_sys::first::Builder;
+use librrd_sys::get_rrd_error;
 fn main() {
     let command = Builder::new("createtest.rrd".to_string())
         .build();
