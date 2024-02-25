@@ -30,32 +30,32 @@ impl Builder {
     }
 
     // req
-    pub fn start(mut self, time: &str) -> Builder {
-        self.data.opts.insert("--start".to_string(), time.to_string());
+    pub fn start(mut self, var: &str) -> Builder {
+        self.data.opts.insert("--start".to_string(), var.to_string());
         self
     }
 
     // req
-    pub fn step(mut self, step: &str) -> Builder {
-        self.data.opts.insert("--step".to_string(), step.to_string());
+    pub fn step(mut self, var: &str) -> Builder {
+        self.data.opts.insert("--step".to_string(), var.to_string());
         self
     }
 
     // req
-    pub fn daemon(mut self, address: &str) -> Builder {
-        self.data.opts.insert("--daemon".to_string(), address.to_string());
+    pub fn daemon(mut self, var: &str) -> Builder {
+        self.data.opts.insert("--daemon".to_string(), var.to_string());
         self
     }
 
     // req
-    pub fn source(mut self, source_file: &str) -> Builder {
-        self.data.opts.insert("--source".to_string(), source_file.to_string());
+    pub fn source(mut self, var: &str) -> Builder {
+        self.data.opts.insert("--source".to_string(), var.to_string());
         self
     }
 
     // req
-    pub fn template(mut self, template_file: &str) -> Builder {
-        self.data.opts.insert("--template".to_string(), template_file.to_string());
+    pub fn template(mut self, var: &str) -> Builder {
+        self.data.opts.insert("--template".to_string(), var.to_string());
         self
     }
 

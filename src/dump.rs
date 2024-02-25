@@ -40,14 +40,14 @@ impl Builder {
     }
 
     // req
-    pub fn daemon(mut self, address: &str) -> Builder {
-        self.data.opts.insert("--daemon".to_string(), address.to_string());
+    pub fn daemon(mut self, var: &str) -> Builder {
+        self.data.opts.insert("--daemon".to_string(), var.to_string());
         self
     }
 
     // req
-    pub fn header(mut self, h: &str) -> Builder {
-        let header = match h {
+    pub fn header(mut self, var: &str) -> Builder {
+        let header = match var {
             "none" => "none".to_string(),
             "xsd" => "xsd".to_string(),
             "dtd" => "dtd".to_string(),
